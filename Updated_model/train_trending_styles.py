@@ -37,7 +37,8 @@ numerical_columns = ['sale_price_amount', 'retail_price_amount', 'discount_perce
 data[numerical_columns] = scaler.fit_transform(data[numerical_columns])
 
 # Step 3: Split the Data
-X = data.drop('is_trending', axis=1)
+# X = data.drop('is_trending', axis=1)
+X = data.drop(['is_trending', 'average_rating', 'reviews_count', 'discount_percentage'], axis=1)
 y = data['is_trending']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
@@ -50,6 +51,6 @@ model.fit(X_train, y_train)
 joblib.dump(model, 'trending_styles_model.pkl')
 joblib.dump(scaler, 'scaler.pkl')
 joblib.dump(label_encoders, 'label_encoders.pkl')
-joblib.dump(X.columns.tolist(), 'feature_names.pkl')  # Save feature names
+joblib.dump(X.columns.tolist(), 'feature_names.pkl')  
 
 print("Model, Scaler, LabelEncoders, and Feature Names saved successfully.")
